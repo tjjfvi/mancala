@@ -26,12 +26,12 @@ function bundle(){
 		.pipe(fs.createWriteStream(__dirname + "/static/bundle.js"))
 }
 
-const router = new express.Router();
-require("express-ws")(router);
+const app = express();
+require("express-ws")(app);
 
-router.use(express.static(__dirname + "/static/"));
+app.use(express.static(__dirname + "/static/"));
 
-router.get("/bundle.css", async (req, res) => {
+app.get("/bundle.css", async (req, res) => {
 	res.set("Content-Type", "text/css").send(await promisify(stylus.render)(
 		`@import '${__dirname + "/static/stylus/"}*'`,
 		{ filename: "_.styl" },
@@ -44,7 +44,7 @@ let wss = {
 	byId:    {},
 }
 
-router.ws("/ws", ws => {
+app.ws("/ws", ws => {
 
 	ws.s = function(type, data){
 		if(this.readyState !== 1)
@@ -139,12 +139,10 @@ router.ws("/ws", ws => {
 const port = process.env.PORT || 65438;
 
 if(require.main === module) {
-	let app = express();
-	app.use(router);
 	app.listen(port, () => console.log(`Listening on http://localhost:${port}/`))
 }
 
-module.exports = router;
+module.exports = app;
 
 function sendGames(ws_ = wss.waiting){
 	ws_.map(ws => ws.s("games", wss.hosting.map(({ id, name, pswd }) => ({
