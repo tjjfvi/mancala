@@ -1,0 +1,48 @@
+
+.mancala
+	display flex
+	flex-direction column
+	align-items center
+
+	& > i
+		color $lightgrey
+
+	.results
+		color $white
+		font-size 50px
+		font-weight 300
+		text-align center
+
+		small
+			font-size 34px
+
+	.board
+		display flex
+
+		.col
+			display flex
+			flex-direction column
+			justify-content space-between
+
+			.cell
+				display flex
+				justify-content center
+				align-items center
+
+				width 150px
+				height 150px
+				margin 15px 5px
+
+				background-color $darkgrey
+				border 3px solid $grey
+				border-radius 200px
+
+				color $white
+				font-size 50px
+				font-weight 300
+
+				&.movable
+					cursor pointer
+
+			.goal
+				height 275px

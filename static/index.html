@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>Mancala</title>
+
+		<link rel="stylesheet" href="bundle.css">
+		<script src="bundle.js"></script>
+	</head>
+	<body style="display: none;" data-bind="visible: true">
+
+		<div class="intro" data-bind="with: intro, visible: status() === 'waiting'">
+
+			<div class="join">
+				<h1>Join an existing game</h1>
+				<!-- ko foreach: games -->
+					<div class="game" data-bind="css: { pswd: pswdReq }">
+						<span>
+							<span data-bind="text: name || '[unnamed]'">T6</span>
+						</span>
+						<div>
+							<input type="password" data-lpignore="true" placeholder="Password" data-bind="value: pswd, css: { wrong }"/>
+							<button data-bind="click: join">Join</button>
+						</div>
+					</div>
+				<!-- /ko -->
+			</div>
+
+			<div class="host" data-bind="with: host">
+				<h1>Host a new game</h1>
+				<label>
+					<span>Name</span>
+					<input type="text" data-bind="value: name"/>
+				</label>
+				<label>
+					<span>Password <i>(optional)</i></span>
+					<input type="password" data-lpignore="true" data-bind="value: pswd"/>
+				</label>
+				<button data-bind="click: host">Host</button>
+			</div>
+
+		</div>
+
+		<div class="hosting" data-bind="visible: status() === 'hosting'">
+			Waiting for someone to join...
+		</div>
+
+		<div class="mancala" data-bind="with: mancala, visible: status() === 'playing'">
+			<!-- ko ifnot: gameOver -->
+				<div class="board" data-bind="foreach: [...Array(8)]">
+					<div class="col" data-bind="foreach: [$parent.board[1][6 - $index()], $parent.board[0][$index() - 1]]">
+						<div data-bind="
+							css: {
+								cell: $data,
+								goal: $data && isGoal,
+								movable: $data && movable
+							},
+							if: $data && $data.stones(),
+							click: $data && move
+						">
+							<span data-bind="text: stones"></span>
+						</div>
+					</div>
+				</div>
+				<i data-bind="text: ['your', 'their'][turn()] + ' turn'"></i>
+			<!-- /ko -->
+			<!-- ko if: gameOver -->
+				<div class="results">
+					<small>You <span data-bind="text: standings"></small><br>
+					<span data-bind="text: board[0][6].stones()"></span> —
+					<span data-bind="text: board[1][6].stones()"></span>
+				</div>
+			<!-- /ko -->
+		</div>
+
+	</body>
+</html>
