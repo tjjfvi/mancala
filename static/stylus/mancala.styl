@@ -25,24 +25,31 @@
 			justify-content space-between
 
 			.cell
+				cellSizing(screenWidth)
+					cellWidth = "(%s/8 - %s/100)" % (screenWidth screenWidth)
+					&
+						margin "calc(%s/100) calc(%s/200)" % (screenWidth screenWidth)
+						width  "calc(%s)" % cellWidth
+						height "calc(%s)" % cellWidth
+						font-size "calc(%s * .4)" % cellWidth 
+					&.goal
+						height "calc(%s * 1.75)" % cellWidth
+
 				display flex
 				justify-content center
 				align-items center
 
-				width 100px
-				height 100px
-				margin 10px 5px
+				cellSizing 1000px
 
 				background-color $darkgrey
 				border 3px solid $grey
 				border-radius 200px
 
 				color $white
-				font-size 50px
 				font-weight 300
-
+				
+				@media (max-width: 1000px)
+					cellSizing 100vw
+				
 				&.movable
 					cursor pointer
-
-			.goal
-				height 175px

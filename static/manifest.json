@@ -1,0 +1,8 @@
+{
+	"name": "Mancala",
+	"short_name": "Mancala",
+	"display": "fullscreen",
+	"orientation": "landscape",
+	"background_color": "#151820",
+	"theme_color": "#151820"
+}

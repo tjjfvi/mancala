@@ -38,3 +38,12 @@ canvas
 iframe[name="LPFrame"]
 	opacity 0
 	pointer-events none
+
+@media (orientation:portrait) and (max-width: 750px)
+	body > *
+		display: none !important;
+
+	body:before
+		content: "This application is designed for landscape orientation. Please turn your device.";
+		color: white;
+		text-align: center;
